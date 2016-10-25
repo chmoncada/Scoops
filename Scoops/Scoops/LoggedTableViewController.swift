@@ -25,6 +25,30 @@ class LoggedTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: IBAction
+    
+    @IBAction func AddNewScoopAction(_ sender: AnyObject) {
+    
+        print("Apretaron boton para añadir scoop nuevo")
+        
+        let storyBoardL = UIStoryboard(name: "ScoopDetails", bundle: Bundle.main)
+        let vc = storyBoardL.instantiateViewController(withIdentifier: "scoopDetailsScene")
+        
+        present(vc, animated: true, completion: nil)
+    
+    }
+    
+    @IBAction func backAction(_ sender: AnyObject) {
+    
+        print("Apretaron boton para ir a vista inicial")
+        
+        let storyBoardL = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyBoardL.instantiateViewController(withIdentifier: "mainScene")
+        
+        present(vc, animated: true, completion: nil)
+        
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

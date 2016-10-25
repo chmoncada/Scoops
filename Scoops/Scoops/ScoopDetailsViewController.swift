@@ -7,13 +7,48 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ScoopDetailsViewController: UIViewController {
+class ScoopDetailsViewController: UITableViewController {
 
+    
+    @IBOutlet weak var titleText: UITextField!
+    @IBOutlet weak var scoopText: UITextView!
+    @IBOutlet weak var latitudeLabel: UILabel!
+    @IBOutlet weak var longitudeLabel: UILabel!
+    @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet weak var addPhotoLabel: UILabel!
+    
+    // MARK: - Location Properties
+    let locationManager = CLLocationManager()
+    var location: CLLocation?
+    var coordinate: CLLocationCoordinate2D?
+    var updatingLocation = false
+    var lastLocationError: NSError?
+    var timer: Timer?
+    
+    var image: UIImage?
+    
+//    var annotationToEdit: Annotation? {
+//        didSet {
+//            if let annotation = annotationToEdit {
+//                // Put the value of annotation to the variables so the labels and photo appears!
+//                descriptionText = annotation.text
+//                creationDate = annotation.creationDate as Date
+//                currentPage = annotation.linkedPage?.intValue
+//                if let latitude = annotation.location?.latitude, let longitude = annotation.location?.longitude {
+//                    coordinate = CLLocationCoordinate2DMake(latitude.doubleValue, longitude.doubleValue)
+//                }
+//            }
+//        }
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        getLocation()
+        updateLabels()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +56,303 @@ class ScoopDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func saveNewScoop(_ sender: AnyObject) {
+        
+        print("Se grabara Scoop")
+        // Save data in Azure
+        
+        // Dismiss View
+        dismissView()
+        
     }
-    */
+
+    // Cancel Button Action
+    @IBAction func cancelAction(_ sender: AnyObject) {
+        
+        print("Apretaron boton para cancelar")
+        dismissView()
+        
+    }
+    
+    // Dismiss the view
+    func dismissView() {
+        
+        let storyBoardL = UIStoryboard(name: "Logged", bundle: Bundle.main)
+        let vc = storyBoardL.instantiateViewController(withIdentifier: "loggedScene")
+        
+        //vc.modalTransitionStyle = .flipHorizontal
+        
+        present(vc, animated: true, completion: nil)
+        
+    }
 
 }
+
+// MARK: - Utils
+
+extension ScoopDetailsViewController {
+    
+    /// Update the labels in the view
+    func updateLabels() {
+        
+//        if let _ = annotationToEdit {
+//            descriptionTextView.text = descriptionText
+//        }
+        
+        if let location = location {
+            latitudeLabel.text = String(format: "%.8f", location.coordinate.latitude)
+            longitudeLabel.text = String(format: "%.8f", location.coordinate.longitude)
+        } else if let coordinate = coordinate {
+            latitudeLabel.text = String(format: "%.8f", coordinate.latitude)
+            longitudeLabel.text = String(format: "%.8f", coordinate.longitude)
+        } else {
+            latitudeLabel.text = ""
+            longitudeLabel.text = ""
+            
+        }
+    }
+    
+    func showImage(_ image: UIImage) {
+        photoImage.image = image
+        photoImage.isHidden = false
+        photoImage.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
+        addPhotoLabel.isHidden = true
+    }
+    
+}
+
+
+// Core Location methods
+
+extension ScoopDetailsViewController: CLLocationManagerDelegate {
+    
+    func startLocationManager() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            updatingLocation = true
+            
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(ScoopDetailsViewController.didTimeOut), userInfo: nil, repeats: false)
+            
+        }
+    }
+    
+    func stopLocationManager() {
+        if updatingLocation {
+            if let timer = timer {
+                timer.invalidate()
+            }
+            locationManager.stopUpdatingLocation()
+            locationManager.delegate = nil
+            updatingLocation = false
+        }
+    }
+    
+    // Show a alert if the Location Services is disabled in the phone
+    func showLocationServicesDeniedAlert() {
+        let alert = UIAlertController(title: "Location Services Disabled ", message: "Please enable location services for this app in Settings.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func didTimeOut() {
+        if location == nil {
+            stopLocationManager()
+            lastLocationError = NSError(domain: "MyLocationsErrorDomain", code: 1, userInfo: nil)
+            updateLabels()
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+        let code = (error as NSError).code
+        if code == CLError.Code.locationUnknown.rawValue {
+            return
+        }
+        
+        lastLocationError = error as NSError?
+        
+        stopLocationManager()
+        updateLabels()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let newLocation = locations.last!
+        
+        // Check if the time was too long
+        if newLocation.timestamp.timeIntervalSinceNow < -5 {
+            return
+        }
+        // Check if accuracy is less than zero (invalid) so we ignored it
+        if newLocation.horizontalAccuracy < 0 {
+            return
+        }
+        
+        var distance = CLLocationDistance(DBL_MAX)
+        if let location = location {
+            distance = newLocation.distance(from: location)
+        }
+        
+        if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy {
+            
+            lastLocationError = nil
+            location = newLocation
+            updateLabels()
+            
+            if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
+                stopLocationManager()
+            }
+        } else if distance < 1.0 {
+            
+            let timeInterval = newLocation.timestamp.timeIntervalSince(location!.timestamp)
+            
+            if timeInterval > 10 {
+                stopLocationManager()
+                updateLabels()
+            }
+            
+        }
+    }
+    
+    
+    /// Start the location services to upload the labels of location
+    func getLocation() {
+        // Check the status of authorization
+        let authStatus = CLLocationManager.authorizationStatus()
+        
+        // if the stauts is not determined, ask permission
+        if authStatus == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+            return
+        }
+        
+        // Show a Alert if the authorization status is Denied or restricted
+        if authStatus == .denied || authStatus == .restricted {
+            showLocationServicesDeniedAlert()
+            return
+        }
+        
+        startLocationManager()
+    }
+    
+}
+
+// MARK: - UITableViewDelegate
+
+extension ScoopDetailsViewController {
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if ((indexPath as NSIndexPath).section == 3 ) {
+            return nil
+        } else {
+            return indexPath
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 || (indexPath as NSIndexPath).section == 1 {
+            scoopText.becomeFirstResponder()
+        } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
+            tableView.deselectRow(at: indexPath, animated: true)
+            pickPhoto()
+        }
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        switch ((indexPath as NSIndexPath).section, (indexPath as NSIndexPath).row) {
+        case (1,0):
+            return 88
+        case (2,_):
+            return photoImage.isHidden ? 44 : 280
+        default:
+            return 44
+        }
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate & Camera methods
+
+extension ScoopDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func pickPhoto() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            showPhotoMenu()
+        } else {
+            choosePhotoFromLibrary()
+        }
+    }
+    
+    func showPhotoMenu() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let takePhotoAction = UIAlertAction(title: "Take Photo", style: .default, handler: { _ in self.takePhotoWithCamera() })
+        let chooseFromLibrary = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in self.choosePhotoFromLibrary() })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(takePhotoAction)
+        alertController.addAction(chooseFromLibrary)
+        
+        alertController.popoverPresentationController?.sourceView = view
+        alertController.popoverPresentationController?.sourceRect = view.frame
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func takePhotoWithCamera() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func choosePhotoFromLibrary() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
+        imagePicker.modalPresentationStyle = .popover
+        
+        imagePicker.popoverPresentationController?.sourceView = view
+        imagePicker.popoverPresentationController?.sourceRect = view.frame
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        let rawImage = info[UIImagePickerControllerEditedImage] as? UIImage
+        
+        DispatchQueue.global(qos: .default).async {
+            self.image = rawImage?.resizedImageWithContentMode(.scaleAspectFit, bounds: CGSize(width: 260, height: 260), interpolationQuality: .medium)
+            
+            DispatchQueue.main.async {
+                if let image = self.image {
+                    //print("Tengo imagen")
+                    self.showImage(image)
+                }
+                
+                self.tableView.reloadData()
+            }
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+
+
+

@@ -7,21 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A101EE621DBFC2CB005A561C /* UIImage+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101EE5F1DBFC2CB005A561C /* UIImage+Alpha.swift */; };
+		A101EE631DBFC2CB005A561C /* UIImage+ReSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101EE601DBFC2CB005A561C /* UIImage+ReSize.swift */; };
+		A101EE641DBFC2CB005A561C /* UIImage+RoundCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101EE611DBFC2CB005A561C /* UIImage+RoundCorner.swift */; };
 		A17D09081DBBC393009D4809 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D09071DBBC393009D4809 /* AppDelegate.swift */; };
-		A17D090A1DBBC393009D4809 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D09091DBBC393009D4809 /* ViewController.swift */; };
 		A17D090D1DBBC393009D4809 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17D090B1DBBC393009D4809 /* Main.storyboard */; };
 		A17D090F1DBBC393009D4809 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A17D090E1DBBC393009D4809 /* Assets.xcassets */; };
 		A17D09121DBBC393009D4809 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17D09101DBBC393009D4809 /* LaunchScreen.storyboard */; };
+		A17D091B1DBBC48A009D4809 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D091A1DBBC48A009D4809 /* MainViewController.swift */; };
+		A17D09201DBBC8D7009D4809 /* LoggedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D091F1DBBC8D7009D4809 /* LoggedTableViewController.swift */; };
+		A17D09231DBD9D5B009D4809 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17D09221DBD9D5B009D4809 /* MicrosoftAzureMobile.framework */; };
+		A17D09291DBDA007009D4809 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17D09281DBDA007009D4809 /* WebKit.framework */; };
+		A17D092B1DBDA168009D4809 /* Logged.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17D092A1DBDA168009D4809 /* Logged.storyboard */; };
+		A17D092D1DBDA18F009D4809 /* ScoopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A101EE5F1DBFC2CB005A561C /* UIImage+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Alpha.swift"; sourceTree = "<group>"; };
+		A101EE601DBFC2CB005A561C /* UIImage+ReSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+ReSize.swift"; sourceTree = "<group>"; };
+		A101EE611DBFC2CB005A561C /* UIImage+RoundCorner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+RoundCorner.swift"; sourceTree = "<group>"; };
 		A17D09041DBBC393009D4809 /* Scoops.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scoops.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A17D09071DBBC393009D4809 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A17D09091DBBC393009D4809 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A17D090C1DBBC393009D4809 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A17D090E1DBBC393009D4809 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A17D09111DBBC393009D4809 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A17D09131DBBC393009D4809 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A17D091A1DBBC48A009D4809 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A17D091F1DBBC8D7009D4809 /* LoggedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedTableViewController.swift; sourceTree = "<group>"; };
+		A17D09221DBD9D5B009D4809 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MicrosoftAzureMobile.framework; sourceTree = "<group>"; };
+		A17D09261DBD9F42009D4809 /* Scoops-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Scoops-Bridging-Header.h"; sourceTree = "<group>"; };
+		A17D09281DBDA007009D4809 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		A17D092A1DBDA168009D4809 /* Logged.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Logged.storyboard; sourceTree = "<group>"; };
+		A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoopDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +46,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A17D09291DBDA007009D4809 /* WebKit.framework in Frameworks */,
+				A17D09231DBD9D5B009D4809 /* MicrosoftAzureMobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A101EE651DBFC2D0005A561C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A101EE5F1DBFC2CB005A561C /* UIImage+Alpha.swift */,
+				A101EE601DBFC2CB005A561C /* UIImage+ReSize.swift */,
+				A101EE611DBFC2CB005A561C /* UIImage+RoundCorner.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		A17D08FB1DBBC392009D4809 = {
 			isa = PBXGroup;
 			children = (
+				A17D09261DBD9F42009D4809 /* Scoops-Bridging-Header.h */,
 				A17D09061DBBC393009D4809 /* Scoops */,
 				A17D09051DBBC393009D4809 /* Products */,
+				A17D09271DBDA007009D4809 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +85,51 @@
 		A17D09061DBBC393009D4809 /* Scoops */ = {
 			isa = PBXGroup;
 			children = (
+				A101EE651DBFC2D0005A561C /* Utils */,
+				A17D09211DBD9D51009D4809 /* Frameworks */,
+				A17D091C1DBBC856009D4809 /* Logged */,
+				A17D09191DBBC477009D4809 /* Main */,
 				A17D09071DBBC393009D4809 /* AppDelegate.swift */,
-				A17D09091DBBC393009D4809 /* ViewController.swift */,
-				A17D090B1DBBC393009D4809 /* Main.storyboard */,
 				A17D090E1DBBC393009D4809 /* Assets.xcassets */,
 				A17D09101DBBC393009D4809 /* LaunchScreen.storyboard */,
 				A17D09131DBBC393009D4809 /* Info.plist */,
 			);
 			path = Scoops;
+			sourceTree = "<group>";
+		};
+		A17D09191DBBC477009D4809 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				A17D090B1DBBC393009D4809 /* Main.storyboard */,
+				A17D091A1DBBC48A009D4809 /* MainViewController.swift */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		A17D091C1DBBC856009D4809 /* Logged */ = {
+			isa = PBXGroup;
+			children = (
+				A17D091F1DBBC8D7009D4809 /* LoggedTableViewController.swift */,
+				A17D092A1DBDA168009D4809 /* Logged.storyboard */,
+				A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */,
+			);
+			name = Logged;
+			sourceTree = "<group>";
+		};
+		A17D09211DBD9D51009D4809 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A17D09221DBD9D5B009D4809 /* MicrosoftAzureMobile.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A17D09271DBDA007009D4809 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A17D09281DBDA007009D4809 /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +194,7 @@
 			files = (
 				A17D09121DBBC393009D4809 /* LaunchScreen.storyboard in Resources */,
 				A17D090F1DBBC393009D4809 /* Assets.xcassets in Resources */,
+				A17D092B1DBDA168009D4809 /* Logged.storyboard in Resources */,
 				A17D090D1DBBC393009D4809 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,8 +206,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A17D090A1DBBC393009D4809 /* ViewController.swift in Sources */,
+				A17D092D1DBDA18F009D4809 /* ScoopDetailsViewController.swift in Sources */,
+				A101EE631DBFC2CB005A561C /* UIImage+ReSize.swift in Sources */,
+				A17D091B1DBBC48A009D4809 /* MainViewController.swift in Sources */,
+				A101EE621DBFC2CB005A561C /* UIImage+Alpha.swift in Sources */,
 				A17D09081DBBC393009D4809 /* AppDelegate.swift in Sources */,
+				A17D09201DBBC8D7009D4809 /* LoggedTableViewController.swift in Sources */,
+				A101EE641DBFC2CB005A561C /* UIImage+RoundCorner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,10 +334,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 692K8L98GH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Scoops",
+				);
 				INFOPLIST_FILE = Scoops/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charlesmoncada.Scoops;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Scoops-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -273,10 +352,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 692K8L98GH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Scoops",
+				);
 				INFOPLIST_FILE = Scoops/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charlesmoncada.Scoops;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Scoops-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -300,6 +384,7 @@
 				A17D09181DBBC393009D4809 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

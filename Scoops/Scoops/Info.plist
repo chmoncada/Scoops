@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app lets you keep track of position of your scoops.  It needs access to the GPS coordinates for your location.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app lets you add a photo in your scoops. It needs access to your Photo Library so you can pick a photo if you want.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app lets you add a photo in your scoops. It needs access to your Camera so you can pick a photo if you want.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

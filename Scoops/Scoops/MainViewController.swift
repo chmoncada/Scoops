@@ -10,6 +10,8 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +23,26 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - IBAction
+    
+    @IBAction func userLoggedAction(_ sender: AnyObject) {
+    
+        print("Apretaron boton de usuario Logeado")
+        
+        let storyBoardL = UIStoryboard(name: "Logged", bundle: Bundle.main)
+        let vc = storyBoardL.instantiateViewController(withIdentifier: "loggedScene")
+        
+        present(vc, animated: true, completion: nil)
+        
+    }
 
+    @IBAction func userAnonymousAction(_ sender: AnyObject) {
+    
+        print("Apretaron boton de usuario Anonimo")
+        
+    }
+    
+    
     /*
     // MARK: - Navigation
 
