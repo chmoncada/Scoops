@@ -435,12 +435,26 @@ extension ScoopDetailsViewController: UIImagePickerControllerDelegate, UINavigat
         
         let rawImage = info[UIImagePickerControllerEditedImage] as? UIImage
         
+        let blobName = UUID().uuidString
+        let parameters = ["blobName": blobName]
+        
+        client?.invokeAPI("getbloburlfromcontainer", body: nil, httpMethod: "GET", parameters: parameters, headers: nil, completion: { (result, response, error) in
+            
+            if let _ = error {
+                print("error al invocar la api: \(error)")
+                return
+            }
+            
+            print(result)
+            
+        })
+        
         DispatchQueue.global(qos: .default).async {
             self.image = rawImage?.resizedImageWithContentMode(.scaleAspectFit, bounds: CGSize(width: 260, height: 260), interpolationQuality: .medium)
             
             DispatchQueue.main.async {
                 if let image = self.image {
-                    //print("Tengo imagen")
+                    print("Tengo imagen")
                     self.showImage(image)
                 }
                 
