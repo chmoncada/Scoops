@@ -40,6 +40,11 @@ class MainViewController: UIViewController {
     
         print("Apretaron boton de usuario Anonimo")
         
+        let storyBoardL = UIStoryboard(name: "Anonymous", bundle: Bundle.main)
+        let vc = storyBoardL.instantiateViewController(withIdentifier: "anonymousScene")
+        
+        present(vc, animated: true, completion: nil)
+        
     }
     
     

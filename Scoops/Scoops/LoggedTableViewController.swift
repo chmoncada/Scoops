@@ -8,16 +8,39 @@
 
 import UIKit
 
+typealias ScoopRecord = Dictionary<String, AnyObject>
+
 class LoggedTableViewController: UITableViewController {
 
+    var client: MSClient = MSClient(applicationURL: URL(string: "https://practicascoops.azurewebsites.net")!)
+    
+    var loggedUser: String?
+    var token: String?
+    
+    var model: [Dictionary<String,AnyObject>]? = []
+    
+    fileprivate let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
+    // MARK: lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        loadAuthInfo()
+        
+        if let _ = client.currentUser {
+            print("ya tengo usuario logeado")
+            
+            readAllItemsInTable()
+        } else {
+            doLoginInFacebook()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,6 +64,8 @@ class LoggedTableViewController: UITableViewController {
     @IBAction func backAction(_ sender: AnyObject) {
     
         print("Apretaron boton para ir a vista inicial")
+        client.currentUser = nil
+        removeAuthInfo()
         
         let storyBoardL = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc = storyBoardL.instantiateViewController(withIdentifier: "mainScene")
@@ -49,27 +74,124 @@ class LoggedTableViewController: UITableViewController {
         
     }
     
+    // MARK: - Utils
+    
+    func readAllItemsInTable() {
+        
+        let tableMS =  client.table(withName: "Scoops")
+        
+        let predicate = NSPredicate(format: "authorID == %@", (client.currentUser?.userId!)!)
+        
+        let query = tableMS.query(with: predicate)
+        
+        query.order(byAscending: "createdAt")
+        
+        query.selectFields = ["id","title", "status"]
+        
+        query.read { (results, error) in
+            
+            if let _ = error {
+                print("Error al leer la table: \(error)")
+                return
+            }
+            
+            print("lei algo")
+            if let items = results {
+                
+                for item in items.items! {
+                    self.model?.append(item as! ScoopRecord)
+                }
+                //print(items.items)
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        return dateFormatter.string(from: date)
+    }
+    
+    func doLoginInFacebook() {
+        client.login(withProvider: "facebook", parameters: nil, controller: self, animated: true) { (user, error) in
+            
+            if let _ = error {
+                print("Error al hacer login: \(error)")
+                return
+            }
+            
+            if let _ = user {
+                self.readAllItemsInTable()
+                //print(user?.mobileServiceAuthenticationToken)
+                //print(user?.userId)
+                print("client current user: \(self.client.currentUser!.userId)")
+                self.saveAuthInfo(user!)
+            }
+            
+        }
+    }
+    
+    func saveAuthInfo(_ user:MSUser) {
+        UserDefaults.standard.set(user.userId!, forKey: "userID")
+        UserDefaults.standard.set(user.mobileServiceAuthenticationToken!, forKey: "token")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func loadAuthInfo() {
+        
+        loggedUser = UserDefaults.standard.object(forKey: "userID") as? String
+        token = UserDefaults.standard.object(forKey: "token") as? String
+        
+        if let _ = loggedUser {
+            self.client.currentUser = MSUser(userId: loggedUser)
+            self.client.currentUser?.mobileServiceAuthenticationToken = token
+        }
+        
+    }
+    
+    func removeAuthInfo() {
+        
+        UserDefaults.standard.removeObject(forKey: "userID")
+        UserDefaults.standard.removeObject(forKey: "token")
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        if (model?.isEmpty)! {
+            return 0
+        }
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if (model?.isEmpty)! {
+            return 0
+        }
+        
+        return (model?.count)!
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "authorScoops", for: indexPath)
 
         // Configure the cell...
+        let item = model?[indexPath.row]
+        
+        cell.textLabel?.text = item?["title"] as! String?
+        //let date = item?["createdAt"] as! NSDate
+        //cell.detailTextLabel?.text = formatDate(date as Date)
+        cell.detailTextLabel?.text = item?["status"] as! String?
+        cell.imageView?.image = UIImage(named: "animated-1")
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -106,14 +228,32 @@ class LoggedTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showScoopDetails" {
+            let controller = segue.destination as! ScoopDetailsViewController
+            
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
+                let item = model?[indexPath.row]
+                //print(item?["id"])
+                controller.id = item?["id"] as! String?
+                controller.title = "Scoop Details"
+            }
+            controller.client = client
+        }
+        
+        if segue.identifier == "addNewScoop" {
+            let controller = segue.destination as! ScoopDetailsViewController
+            
+            controller.client = client
+        }
+
+        
     }
-    */
+
 
 }

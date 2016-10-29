@@ -18,6 +18,8 @@ class ScoopDetailsViewController: UITableViewController {
     @IBOutlet weak var longitudeLabel: UILabel!
     @IBOutlet weak var photoImage: UIImageView!
     @IBOutlet weak var addPhotoLabel: UILabel!
+    @IBOutlet weak var actionButton: UIBarButtonItem!
+    @IBOutlet weak var publishSwitch: UISwitch!
     
     // MARK: - Location Properties
     let locationManager = CLLocationManager()
@@ -29,24 +31,39 @@ class ScoopDetailsViewController: UITableViewController {
     
     var image: UIImage?
     
-//    var annotationToEdit: Annotation? {
-//        didSet {
-//            if let annotation = annotationToEdit {
-//                // Put the value of annotation to the variables so the labels and photo appears!
-//                descriptionText = annotation.text
-//                creationDate = annotation.creationDate as Date
-//                currentPage = annotation.linkedPage?.intValue
-//                if let latitude = annotation.location?.latitude, let longitude = annotation.location?.longitude {
-//                    coordinate = CLLocationCoordinate2DMake(latitude.doubleValue, longitude.doubleValue)
-//                }
-//            }
-//        }
-//    }
+    var descriptionText = "(Inserte texto aqui)"
+    
+    var scoopToEdit: ScoopRecord? {
+        didSet {
+            print("consegui los datos")
+            updateLabels()
+        }
+    }
+    
+    var id: String? {
+        didSet {
+            print("debo cargar el objecto con id: \(id!)")
+            
+        }
+    }
+    
+    var model: ScoopRecord?
+    var client: MSClient?
+
+// MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getLocation()
+        if let _ = id {
+            print("no busco localizacion")
+            actionButton.title = "Update"
+            loadScoop(id!)
+        } else {
+            getLocation()
+            publishSwitch.isEnabled = false
+        }
+        
         updateLabels()
         
     }
@@ -55,14 +72,18 @@ class ScoopDetailsViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+// MARK: - IBAction
     
     @IBAction func saveNewScoop(_ sender: AnyObject) {
         
-        print("Se grabara Scoop")
-        // Save data in Azure
-        
-        // Dismiss View
-        dismissView()
+        if actionButton.title == "Save" {
+            print("Se grabara Scoop")
+            addNewScoop()
+        } else {
+            print("Se actualizara el registro")
+            updateScoop()
+        }
         
     }
 
@@ -73,6 +94,12 @@ class ScoopDetailsViewController: UITableViewController {
         dismissView()
         
     }
+
+}
+
+// MARK: - Utils
+
+extension ScoopDetailsViewController {
     
     // Dismiss the view
     func dismissView() {
@@ -85,19 +112,9 @@ class ScoopDetailsViewController: UITableViewController {
         present(vc, animated: true, completion: nil)
         
     }
-
-}
-
-// MARK: - Utils
-
-extension ScoopDetailsViewController {
     
     /// Update the labels in the view
     func updateLabels() {
-        
-//        if let _ = annotationToEdit {
-//            descriptionTextView.text = descriptionText
-//        }
         
         if let location = location {
             latitudeLabel.text = String(format: "%.8f", location.coordinate.latitude)
@@ -108,8 +125,15 @@ extension ScoopDetailsViewController {
         } else {
             latitudeLabel.text = ""
             longitudeLabel.text = ""
-            
         }
+        
+        if let _ = scoopToEdit {
+            scoopText.text = scoopToEdit?["scooptext"] as? String
+            titleText.text = scoopToEdit?["title"] as? String
+            latitudeLabel.text = String(format: "%.8f", (scoopToEdit?["latitude"]! as? Double)!)
+            longitudeLabel.text = String(format: "%.8f", (scoopToEdit?["longitude"]! as? Double)!)
+        }
+        
     }
     
     func showImage(_ image: UIImage) {
@@ -119,10 +143,91 @@ extension ScoopDetailsViewController {
         addPhotoLabel.isHidden = true
     }
     
+    func addNewScoop() {
+        
+        let tableMS =  client?.table(withName: "Scoops")
+        
+        let scoop = ["title": titleText.text!, "scooptext": scoopText.text!, "author": "Charles", "latitude": NSNumber(value: (location?.coordinate.latitude)!) , "longitude": NSNumber(value: (location?.coordinate.longitude)!)] as [String : Any]
+                
+        tableMS?.insert(scoop) { (result, error) in
+            
+            if let _ = error {
+                print("Error al insertar registro: \(error)")
+                return
+            }
+            
+            print("se inserto registro con exito: \(result)")
+            
+            DispatchQueue.main.async {
+                self.dismissView()
+            }
+        }
+    }
+    
+    func updateScoop() {
+        
+        let tableMS = client?.table(withName: "Scoops")
+        
+        if let newItem = (scoopToEdit! as NSDictionary).mutableCopy() as? NSMutableDictionary {
+            newItem["title"] = titleText.text!
+            newItem["scooptext"] = scoopText.text!
+            if publishSwitch.isOn {
+                newItem["status"] = "pending"
+            }
+            
+            tableMS?.update(newItem as [NSObject: AnyObject], completion: { (result, error) in
+                
+                if let _ = error {
+                    print("Error al hacer update: \(error)")
+                }
+                
+                if let _ = result {
+                    print("se actualizo el registro con exito: \(result)")
+                }
+                
+                DispatchQueue.main.async {
+                    self.dismissView()
+                }
+                
+            })
+            
+        }
+        
+        
+        
+        
+        
+    }
+
+    func loadScoop(_ id: String) {
+        
+        let tableMS =  client?.table(withName: "Scoops")
+        
+        let predicate = NSPredicate(format: "id == %@", id)
+        
+        let query = tableMS?.query(with: predicate)
+        
+        query?.selectFields = ["id","title", "scooptext", "latitude", "longitude", "status"]
+        
+        query?.read { (results, error) in
+            
+            if let _ = error {
+                print("Error al leer la table: \(error)")
+                return
+            }
+            
+            if let _ = results {
+                self.scoopToEdit = results?.items?[0] as! ScoopRecord?
+            }
+        }
+    }
+    
+    
+    
 }
 
 
-// Core Location methods
+// MARK: - Core Location methods
 
 extension ScoopDetailsViewController: CLLocationManagerDelegate {
     
