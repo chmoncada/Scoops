@@ -115,7 +115,7 @@ class LoggedTableViewController: UITableViewController {
         
         query.order(byAscending: "createdAt")
         
-        query.selectFields = ["id","title", "status", "imageURL"]
+        query.selectFields = ["id","title", "status", "imageURL", "averageScore"]
         
         query.read { (results, error) in
             
@@ -214,9 +214,15 @@ class LoggedTableViewController: UITableViewController {
         let item = model?[indexPath.row]
         
         cell.textLabel?.text = item?["title"] as! String?
-        //let date = item?["createdAt"] as! NSDate
+        let score = item?["averageScore"] as? NSNumber
+        if let score = score {
+            cell.detailTextLabel?.text = String(format: "%.1f", score.floatValue)
+        } else {
+            cell.detailTextLabel?.text = "0.0"
+        }
+        
         //cell.detailTextLabel?.text = formatDate(date as Date)
-        cell.detailTextLabel?.text = item?["status"] as! String?
+        //cell.detailTextLabel?.text = item?["status"] as! String?
         
         // carga imagen del storage
         let photo = item?["imageURL"] as? String

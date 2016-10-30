@@ -20,6 +20,8 @@ class ScoopDetailsViewController: UITableViewController {
     @IBOutlet weak var addPhotoLabel: UILabel!
     @IBOutlet weak var actionButton: UIBarButtonItem!
     @IBOutlet weak var publishSwitch: UISwitch!
+    @IBOutlet weak var valueLabel: UILabel!
+    
     
     // MARK: - Location Properties
     let locationManager = CLLocationManager()
@@ -31,6 +33,7 @@ class ScoopDetailsViewController: UITableViewController {
     
     var image: UIImage?
     var authorName: String?
+    
     
     var descriptionText = "(Inserte texto aqui)"
     
@@ -151,6 +154,43 @@ extension ScoopDetailsViewController {
             titleText.text = scoopToEdit?["title"] as? String
             latitudeLabel.text = String(format: "%.8f", (scoopToEdit?["latitude"]! as? Double)!)
             longitudeLabel.text = String(format: "%.8f", (scoopToEdit?["longitude"]! as? Double)!)
+            
+            // Colocamos valoracion promedio
+            let value = scoopToEdit?["averageScore"] as? NSNumber
+
+            if let value = value {
+                valueLabel.text = String(format: "%.1f", value.floatValue)
+            } else {
+                valueLabel.text = "Sin Valoraciones"
+            }
+            
+            // colocamos la foto
+            let photo = scoopToEdit?["imageURL"] as? String
+            
+            if let photo = photo {
+                
+                let urlString = "https://practicascoops.blob.core.windows.net/scoops/\(photo)"
+                let url = NSURL(string: urlString)
+                do {
+                    let imageData = try NSData(contentsOf: url as! URL, options: NSData.ReadingOptions())
+                    showImage(UIImage(data: imageData as Data)!)
+                    tableView.reloadData()
+                } catch {
+                    print(error)
+                }
+            } else {
+                showImage(UIImage(named: "no-image-available")!)
+                tableView.reloadData()
+            }
+            
+            // cambiamos el status del switch de acuerdo al tipo de scoop
+            let status = scoopToEdit?["status"] as? String
+            if let status = status {
+                if status == "published" {
+                    publishSwitch.isOn = true
+                }
+            }
+            
         }
         
     }
@@ -232,7 +272,7 @@ extension ScoopDetailsViewController {
         
         let query = tableMS?.query(with: predicate)
         
-        query?.selectFields = ["id","title", "scooptext", "latitude", "longitude", "status", "imageURL"]
+        query?.selectFields = ["id","title", "scooptext", "latitude", "longitude", "status", "imageURL", "averageScore"]
         
         query?.read { (results, error) in
             
