@@ -10,7 +10,6 @@
 		A101EE621DBFC2CB005A561C /* UIImage+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101EE5F1DBFC2CB005A561C /* UIImage+Alpha.swift */; };
 		A101EE631DBFC2CB005A561C /* UIImage+ReSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101EE601DBFC2CB005A561C /* UIImage+ReSize.swift */; };
 		A101EE641DBFC2CB005A561C /* UIImage+RoundCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101EE611DBFC2CB005A561C /* UIImage+RoundCorner.swift */; };
-		A1077DA91DC2C55E00C07FE7 /* animated-1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1077DA81DC2C55E00C07FE7 /* animated-1.png */; };
 		A152E15A1DC3B3E6008AF28C /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A152E1591DC3B3E6008AF28C /* MicrosoftAzureMobile.framework */; };
 		A152E15D1DC46DB5008AF28C /* Anonymous.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A152E15C1DC46DB5008AF28C /* Anonymous.storyboard */; };
 		A152E15F1DC46E09008AF28C /* AnonymousTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152E15E1DC46E09008AF28C /* AnonymousTableViewController.swift */; };
@@ -23,13 +22,15 @@
 		A17D09291DBDA007009D4809 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17D09281DBDA007009D4809 /* WebKit.framework */; };
 		A17D092B1DBDA168009D4809 /* Logged.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17D092A1DBDA168009D4809 /* Logged.storyboard */; };
 		A17D092D1DBDA18F009D4809 /* ScoopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */; };
+		A1CED3141DC563A600CF528D /* AZSClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CED3131DC563A600CF528D /* AZSClient.framework */; };
+		A1CED3161DC563EA00CF528D /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CED3151DC563EA00CF528D /* libxml2.2.tbd */; };
+		A1CED31A1DC5AB3C00CF528D /* no-image-available.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CED3191DC5AB3C00CF528D /* no-image-available.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A101EE5F1DBFC2CB005A561C /* UIImage+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Alpha.swift"; sourceTree = "<group>"; };
 		A101EE601DBFC2CB005A561C /* UIImage+ReSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+ReSize.swift"; sourceTree = "<group>"; };
 		A101EE611DBFC2CB005A561C /* UIImage+RoundCorner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+RoundCorner.swift"; sourceTree = "<group>"; };
-		A1077DA81DC2C55E00C07FE7 /* animated-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "animated-1.png"; sourceTree = "<group>"; };
 		A152E1591DC3B3E6008AF28C /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MicrosoftAzureMobile.framework; sourceTree = "<group>"; };
 		A152E15C1DC46DB5008AF28C /* Anonymous.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Anonymous.storyboard; sourceTree = "<group>"; };
 		A152E15E1DC46E09008AF28C /* AnonymousTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnonymousTableViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +46,9 @@
 		A17D09281DBDA007009D4809 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		A17D092A1DBDA168009D4809 /* Logged.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Logged.storyboard; sourceTree = "<group>"; };
 		A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoopDetailsViewController.swift; sourceTree = "<group>"; };
+		A1CED3131DC563A600CF528D /* AZSClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AZSClient.framework; sourceTree = "<group>"; };
+		A1CED3151DC563EA00CF528D /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		A1CED3191DC5AB3C00CF528D /* no-image-available.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-image-available.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +56,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1CED3161DC563EA00CF528D /* libxml2.2.tbd in Frameworks */,
 				A17D09291DBDA007009D4809 /* WebKit.framework in Frameworks */,
 				A152E15A1DC3B3E6008AF28C /* MicrosoftAzureMobile.framework in Frameworks */,
+				A1CED3141DC563A600CF528D /* AZSClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,12 +106,12 @@
 		A17D09061DBBC393009D4809 /* Scoops */ = {
 			isa = PBXGroup;
 			children = (
-				A152E15B1DC46CC2008AF28C /* Anonymous */,
-				A1077DA81DC2C55E00C07FE7 /* animated-1.png */,
-				A101EE651DBFC2D0005A561C /* Utils */,
 				A17D09211DBD9D51009D4809 /* Frameworks */,
-				A17D091C1DBBC856009D4809 /* Logged */,
+				A1CED31B1DC5AB7900CF528D /* Resources */,
+				A101EE651DBFC2D0005A561C /* Utils */,
 				A17D09191DBBC477009D4809 /* Main */,
+				A152E15B1DC46CC2008AF28C /* Anonymous */,
+				A17D091C1DBBC856009D4809 /* Logged */,
 				A17D09071DBBC393009D4809 /* AppDelegate.swift */,
 				A17D090E1DBBC393009D4809 /* Assets.xcassets */,
 				A17D09101DBBC393009D4809 /* LaunchScreen.storyboard */,
@@ -136,6 +142,7 @@
 		A17D09211DBD9D51009D4809 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A1CED3131DC563A600CF528D /* AZSClient.framework */,
 				A152E1591DC3B3E6008AF28C /* MicrosoftAzureMobile.framework */,
 			);
 			name = Frameworks;
@@ -144,9 +151,18 @@
 		A17D09271DBDA007009D4809 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A1CED3151DC563EA00CF528D /* libxml2.2.tbd */,
 				A17D09281DBDA007009D4809 /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A1CED31B1DC5AB7900CF528D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A1CED3191DC5AB3C00CF528D /* no-image-available.png */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,10 +225,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1077DA91DC2C55E00C07FE7 /* animated-1.png in Resources */,
 				A17D09121DBBC393009D4809 /* LaunchScreen.storyboard in Resources */,
 				A152E15D1DC46DB5008AF28C /* Anonymous.storyboard in Resources */,
 				A17D090F1DBBC393009D4809 /* Assets.xcassets in Resources */,
+				A1CED31A1DC5AB3C00CF528D /* no-image-available.png in Resources */,
 				A17D092B1DBDA168009D4809 /* Logged.storyboard in Resources */,
 				A17D090D1DBBC393009D4809 /* Main.storyboard in Resources */,
 			);
@@ -361,6 +377,7 @@
 					"$(PROJECT_DIR)/Scoops",
 				);
 				INFOPLIST_FILE = Scoops/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charlesmoncada.Scoops;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -379,6 +396,7 @@
 					"$(PROJECT_DIR)/Scoops",
 				);
 				INFOPLIST_FILE = Scoops/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charlesmoncada.Scoops;
 				PRODUCT_NAME = "$(TARGET_NAME)";

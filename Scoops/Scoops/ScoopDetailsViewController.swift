@@ -49,6 +49,10 @@ class ScoopDetailsViewController: UITableViewController {
     
     var model: ScoopRecord?
     var client: MSClient?
+    
+    var container: AZSCloudBlobContainer?
+    var blobName: String?
+    var sas: String?
 
 // MARK: - Lifecycle
     
@@ -145,10 +149,16 @@ extension ScoopDetailsViewController {
     
     func addNewScoop() {
         
+        // Creamos y subimos la foto al storage
+        let data = UIImagePNGRepresentation(image!)
+        print(sas!)
+        uploadPhotoToAzureStorageWithData(data!, usingSAS: sas!)
+        
+        // Subimos los datos del scoop a la tabla
         let tableMS =  client?.table(withName: "Scoops")
         
-        let scoop = ["title": titleText.text!, "scooptext": scoopText.text!, "author": "Charles", "latitude": NSNumber(value: (location?.coordinate.latitude)!) , "longitude": NSNumber(value: (location?.coordinate.longitude)!)] as [String : Any]
-                
+        let scoop = ["title": titleText.text!, "imageURL": blobName! ,"scooptext": scoopText.text!, "author": "Charles", "latitude": NSNumber(value: (location?.coordinate.latitude)!) , "longitude": NSNumber(value: (location?.coordinate.longitude)!)] as [String : Any]
+        
         tableMS?.insert(scoop) { (result, error) in
             
             if let _ = error {
@@ -222,6 +232,35 @@ extension ScoopDetailsViewController {
         }
     }
     
+    func uploadPhotoToAzureStorageWithData(_ data: Data, usingSAS sas: String) {
+        
+        do {
+            
+            let credentials = AZSStorageCredentials(sasToken: sas, accountName: "practicascoops")
+            
+            let account = try AZSCloudStorageAccount(credentials: credentials, useHttps: true)
+            
+            let client = account.getBlobClient()
+            
+            let conti = client?.containerReference(fromName: "scoops")
+            
+            let theBlob = conti?.blockBlobReference(fromName: blobName!)
+            
+            theBlob?.upload(from: data, completionHandler: { (error) in
+                
+                if error != nil {
+                    print(error)
+                    return
+                }
+                //self.readAllBlobs()
+                
+            })
+            
+        } catch let ex {
+            print(ex)
+        }
+        
+    }
     
     
 }
@@ -435,27 +474,34 @@ extension ScoopDetailsViewController: UIImagePickerControllerDelegate, UINavigat
         
         let rawImage = info[UIImagePickerControllerEditedImage] as? UIImage
         
-        let blobName = UUID().uuidString
-        let parameters = ["blobName": blobName]
+        blobName = UUID().uuidString
         
-        client?.invokeAPI("getbloburlfromcontainer", body: nil, httpMethod: "GET", parameters: parameters, headers: nil, completion: { (result, response, error) in
-            
-            if let _ = error {
-                print("error al invocar la api: \(error)")
-                return
-            }
-            
-            print(result)
-            
-        })
+        let parameters = ["blobName": blobName]
         
         DispatchQueue.global(qos: .default).async {
             self.image = rawImage?.resizedImageWithContentMode(.scaleAspectFit, bounds: CGSize(width: 260, height: 260), interpolationQuality: .medium)
             
             DispatchQueue.main.async {
                 if let image = self.image {
-                    print("Tengo imagen")
+                    //print("Tengo imagen")
                     self.showImage(image)
+                    self.client?.invokeAPI("getURLForBlobInContainer", body: nil, httpMethod: "GET", parameters: parameters, headers: nil, completion: { (result, response, error) in
+                        
+                        if let _ = error {
+                            print("error al invocar la api: \(error)")
+                            return
+                        }
+                      
+                        if let _ = result {
+                            
+                            let json = result as! NSDictionary
+                            self.sas = json["token"] as? String
+                            
+                        }
+                        
+                        //print(result as! NSDictionary)
+                        
+                    })
                 }
                 
                 self.tableView.reloadData()

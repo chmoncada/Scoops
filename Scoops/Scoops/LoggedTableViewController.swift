@@ -86,7 +86,7 @@ class LoggedTableViewController: UITableViewController {
         
         query.order(byAscending: "createdAt")
         
-        query.selectFields = ["id","title", "status"]
+        query.selectFields = ["id","title", "status", "imageURL"]
         
         query.read { (results, error) in
             
@@ -187,8 +187,25 @@ class LoggedTableViewController: UITableViewController {
         //let date = item?["createdAt"] as! NSDate
         //cell.detailTextLabel?.text = formatDate(date as Date)
         cell.detailTextLabel?.text = item?["status"] as! String?
-        cell.imageView?.image = UIImage(named: "animated-1")
-
+        
+        // carga imagen del storage
+        let photo = item?["imageURL"] as? String
+        
+        if let photo = photo {
+            
+            let urlString = "https://practicascoops.blob.core.windows.net/scoops/\(photo)"
+            let url = NSURL(string: urlString)
+            do {
+                let imageData = try NSData(contentsOf: url as! URL, options: NSData.ReadingOptions())
+                cell.imageView?.image = UIImage(data: imageData as Data)
+            } catch {
+                print(error)
+            }
+            
+        } else {
+            cell.imageView?.image = UIImage(named: "no-image-available")
+        }
+        
         return cell
     }
     
