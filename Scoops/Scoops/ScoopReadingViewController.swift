@@ -24,6 +24,8 @@ class ScoopReadingViewController: UIViewController {
         }
     }
     
+    var valueNumber: Int?
+    
     @IBOutlet weak var titleText: UILabel!
     
     @IBOutlet weak var photo: UIImageView!
@@ -34,9 +36,9 @@ class ScoopReadingViewController: UIViewController {
     
     @IBAction func valueSliderChanged(_ sender: UISlider) {
         let interval = 1
-        let valueNumber = Int(sender.value / Float(interval))
-        sender.value = Float(valueNumber)
-        valueLabel.text = "\(valueNumber)"
+        valueNumber = Int(sender.value / Float(interval))
+        sender.value = Float(valueNumber!)
+        valueLabel.text = "\(valueNumber!)"
 
     }
     
@@ -45,6 +47,11 @@ class ScoopReadingViewController: UIViewController {
     @IBAction func updateValueAction(_ sender: UIButton) {
         
         print("recalculado valoracion del scoop en Backend....")
+        let parameters = ["idScoop": id!, "score": "\(valueNumber!)"]
+        
+        client?.invokeAPI("scoreScoop", body: nil, httpMethod: "GET", parameters: parameters, headers: nil, completion: { (result, response, error) in
+            print("listo el average")
+        })
         
     }
     
