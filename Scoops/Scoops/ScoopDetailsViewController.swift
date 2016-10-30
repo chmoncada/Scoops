@@ -232,7 +232,7 @@ extension ScoopDetailsViewController {
         
         let query = tableMS?.query(with: predicate)
         
-        query?.selectFields = ["id","title", "scooptext", "latitude", "longitude", "status"]
+        query?.selectFields = ["id","title", "scooptext", "latitude", "longitude", "status", "imageURL"]
         
         query?.read { (results, error) in
             

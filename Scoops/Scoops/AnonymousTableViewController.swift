@@ -168,14 +168,24 @@ class AnonymousTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "readScoop" {
+            let controller = segue.destination as! ScoopReadingViewController
+            
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
+                let item = model?[indexPath.row]
+                //print(item?["id"])
+                controller.id = item?["id"] as! String?
+                //controller.title = "Scoop Details"
+                controller.client = client
+            }
+            
+        }
+        
     }
-    */
 
 }

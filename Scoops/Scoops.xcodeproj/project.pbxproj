@@ -22,6 +22,7 @@
 		A17D09291DBDA007009D4809 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17D09281DBDA007009D4809 /* WebKit.framework */; };
 		A17D092B1DBDA168009D4809 /* Logged.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17D092A1DBDA168009D4809 /* Logged.storyboard */; };
 		A17D092D1DBDA18F009D4809 /* ScoopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */; };
+		A1C5220B1DC63D5700227970 /* ScoopReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C5220A1DC63D5700227970 /* ScoopReadingViewController.swift */; };
 		A1CED3141DC563A600CF528D /* AZSClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CED3131DC563A600CF528D /* AZSClient.framework */; };
 		A1CED3161DC563EA00CF528D /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CED3151DC563EA00CF528D /* libxml2.2.tbd */; };
 		A1CED31A1DC5AB3C00CF528D /* no-image-available.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CED3191DC5AB3C00CF528D /* no-image-available.png */; };
@@ -46,6 +47,7 @@
 		A17D09281DBDA007009D4809 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		A17D092A1DBDA168009D4809 /* Logged.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Logged.storyboard; sourceTree = "<group>"; };
 		A17D092C1DBDA18F009D4809 /* ScoopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoopDetailsViewController.swift; sourceTree = "<group>"; };
+		A1C5220A1DC63D5700227970 /* ScoopReadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoopReadingViewController.swift; sourceTree = "<group>"; };
 		A1CED3131DC563A600CF528D /* AZSClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AZSClient.framework; sourceTree = "<group>"; };
 		A1CED3151DC563EA00CF528D /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		A1CED3191DC5AB3C00CF528D /* no-image-available.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-image-available.png"; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			children = (
 				A152E15C1DC46DB5008AF28C /* Anonymous.storyboard */,
 				A152E15E1DC46E09008AF28C /* AnonymousTableViewController.swift */,
+				A1C5220A1DC63D5700227970 /* ScoopReadingViewController.swift */,
 			);
 			name = Anonymous;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				A101EE621DBFC2CB005A561C /* UIImage+Alpha.swift in Sources */,
 				A17D09081DBBC393009D4809 /* AppDelegate.swift in Sources */,
 				A17D09201DBBC8D7009D4809 /* LoggedTableViewController.swift in Sources */,
+				A1C5220B1DC63D5700227970 /* ScoopReadingViewController.swift in Sources */,
 				A101EE641DBFC2CB005A561C /* UIImage+RoundCorner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
