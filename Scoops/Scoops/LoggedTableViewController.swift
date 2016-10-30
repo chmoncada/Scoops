@@ -17,6 +17,10 @@ class LoggedTableViewController: UITableViewController {
     var loggedUser: String?
     var token: String?
     
+    @IBOutlet weak var tableType: UISegmentedControl!
+    
+    var predicate: NSPredicate?
+    
     var model: [Dictionary<String,AnyObject>]? = []
     
     fileprivate let dateFormatter: DateFormatter = {
@@ -28,6 +32,7 @@ class LoggedTableViewController: UITableViewController {
     
     // MARK: lifecycle
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,7 +40,6 @@ class LoggedTableViewController: UITableViewController {
         
         if let _ = client.currentUser {
             print("ya tengo usuario logeado")
-            
             readAllItemsInTable()
         } else {
             doLoginInFacebook()
@@ -49,6 +53,27 @@ class LoggedTableViewController: UITableViewController {
     }
 
     // MARK: IBAction
+    
+    @IBAction func tableTypeChanged(_ sender: UISegmentedControl) {
+        
+        switch tableType.selectedSegmentIndex {
+        case 0:
+            predicate = NSPredicate(format: "authorID == %@ AND status == 'No Publicado'", (client.currentUser?.userId!)!)
+            model = []
+            readAllItemsInTable()
+        case 1:
+            predicate = NSPredicate(format: "authorID == %@ AND status == 'pending'", (client.currentUser?.userId!)!)
+            model = []
+            readAllItemsInTable()
+        case 2:
+            predicate = NSPredicate(format: "authorID == %@ AND status == 'published'", (client.currentUser?.userId!)!)
+            model = []
+            readAllItemsInTable()
+        default:
+            break
+        }
+        
+    }
     
     @IBAction func AddNewScoopAction(_ sender: AnyObject) {
     
@@ -80,9 +105,13 @@ class LoggedTableViewController: UITableViewController {
         
         let tableMS =  client.table(withName: "Scoops")
         
-        let predicate = NSPredicate(format: "authorID == %@", (client.currentUser?.userId!)!)
+        if predicate != nil {
+            print("usare el nuevo predicate")
+        } else {
+            predicate = NSPredicate(format: "authorID == %@ AND status == 'No Publicado'", (client.currentUser?.userId!)!)
+        }
         
-        let query = tableMS.query(with: predicate)
+        let query = tableMS.query(with: predicate!)
         
         query.order(byAscending: "createdAt")
         
