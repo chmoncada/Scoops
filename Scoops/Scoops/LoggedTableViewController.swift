@@ -95,7 +95,7 @@ class LoggedTableViewController: UITableViewController {
                 return
             }
             
-            print("lei algo")
+            //print("lei algo")
             if let items = results {
                 
                 for item in items.items! {
@@ -126,7 +126,8 @@ class LoggedTableViewController: UITableViewController {
             
             if let _ = user {
                 self.readAllItemsInTable()
-                //print(user?.mobileServiceAuthenticationToken)
+                print(user?.mobileServiceAuthenticationToken)
+                
                 //print(user?.userId)
                 print("client current user: \(self.client.currentUser!.userId)")
                 self.saveAuthInfo(user!)

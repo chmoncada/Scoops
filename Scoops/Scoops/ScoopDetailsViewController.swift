@@ -30,6 +30,7 @@ class ScoopDetailsViewController: UITableViewController {
     var timer: Timer?
     
     var image: UIImage?
+    var authorName: String?
     
     var descriptionText = "(Inserte texto aqui)"
     
@@ -59,6 +60,20 @@ class ScoopDetailsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // conseguimos datos del usuario de Facebook
+        client?.invokeAPI("getFacebookInfo", body: nil, httpMethod: "GET", parameters: nil, headers: nil, completion: { (result, response, error) in
+            
+            if let _ = error {
+                print("error al invocar la api: \(error)")
+                return
+            }
+            
+            if let _ = result {
+                let json = result as! NSDictionary
+                self.authorName = json["name"] as? String
+            }
+        })
+        
         if let _ = id {
             print("no busco localizacion")
             actionButton.title = "Update"
@@ -157,7 +172,7 @@ extension ScoopDetailsViewController {
         // Subimos los datos del scoop a la tabla
         let tableMS =  client?.table(withName: "Scoops")
         
-        let scoop = ["title": titleText.text!, "imageURL": blobName! ,"scooptext": scoopText.text!, "author": "Charles", "latitude": NSNumber(value: (location?.coordinate.latitude)!) , "longitude": NSNumber(value: (location?.coordinate.longitude)!)] as [String : Any]
+        let scoop = ["title": titleText.text!, "imageURL": blobName! ,"scooptext": scoopText.text!, "author": authorName!, "latitude": NSNumber(value: (location?.coordinate.latitude)!) , "longitude": NSNumber(value: (location?.coordinate.longitude)!)] as [String : Any]
         
         tableMS?.insert(scoop) { (result, error) in
             
@@ -262,6 +277,11 @@ extension ScoopDetailsViewController {
         
     }
     
+    func getNameFromFacebook() {
+        
+        
+        
+    }
     
 }
 
