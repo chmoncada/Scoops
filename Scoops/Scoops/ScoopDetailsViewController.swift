@@ -22,6 +22,7 @@ class ScoopDetailsViewController: UITableViewController {
     @IBOutlet weak var publishSwitch: UISwitch!
     @IBOutlet weak var valueLabel: UILabel!
     
+    @IBOutlet weak var photoDisclosure: UILabel!
     
     // MARK: - Location Properties
     let locationManager = CLLocationManager()
@@ -154,6 +155,7 @@ extension ScoopDetailsViewController {
             titleText.text = scoopToEdit?["title"] as? String
             latitudeLabel.text = String(format: "%.8f", (scoopToEdit?["latitude"]! as? Double)!)
             longitudeLabel.text = String(format: "%.8f", (scoopToEdit?["longitude"]! as? Double)!)
+            photoDisclosure.isHidden = true
             
             // Colocamos valoracion promedio
             let value = scoopToEdit?["averageScore"] as? NSNumber
@@ -236,8 +238,20 @@ extension ScoopDetailsViewController {
         if let newItem = (scoopToEdit! as NSDictionary).mutableCopy() as? NSMutableDictionary {
             newItem["title"] = titleText.text!
             newItem["scooptext"] = scoopText.text!
-            if publishSwitch.isOn {
-                newItem["status"] = "pending"
+            
+            let oldStatus = newItem["status"] as! String
+            print("el antiguo status es: \(oldStatus)")
+            
+            if oldStatus == "published" {
+                if !(publishSwitch.isOn) {
+                    newItem["status"] = "No Publicado"
+                    print("ahora si lo cambio a No Publicado")
+                }
+            } else if oldStatus == "No Publicado" {
+                if publishSwitch.isOn {
+                    newItem["status"] = "pending"
+                    print("lo cambie a pending")
+                }
             }
             
             tableMS?.update(newItem as [NSObject: AnyObject], completion: { (result, error) in
@@ -317,14 +331,7 @@ extension ScoopDetailsViewController {
         
     }
     
-    func getNameFromFacebook() {
-        
-        
-        
-    }
-    
 }
-
 
 // MARK: - Core Location methods
 
@@ -460,8 +467,12 @@ extension ScoopDetailsViewController {
         if (indexPath as NSIndexPath).section == 0 || (indexPath as NSIndexPath).section == 1 {
             scoopText.becomeFirstResponder()
         } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
-            tableView.deselectRow(at: indexPath, animated: true)
-            pickPhoto()
+            if let _ = scoopToEdit {
+                print("ya no se puede cambiar la foto")
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
+                pickPhoto()
+            }
         }
         
     }
@@ -477,6 +488,9 @@ extension ScoopDetailsViewController {
             return 44
         }
     }
+    
+    
+    
 }
 
 // MARK: - UIImagePickerControllerDelegate & Camera methods

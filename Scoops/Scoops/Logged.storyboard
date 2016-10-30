@@ -63,11 +63,11 @@
                             </tableViewSection>
                             <tableViewSection id="QqO-K0-q93">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="LU5-gR-aSk">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="LU5-gR-aSk">
                                         <rect key="frame" x="0.0" y="281" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LU5-gR-aSk" id="3c9-oq-MIV">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Añadir Foto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jfi-wo-3Wf">
@@ -81,7 +81,18 @@
                                                     <rect key="frame" x="26" y="8" width="148" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ky-7S-QBK">
+                                                    <rect key="frame" x="356" y="11" width="11" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="8Ky-7S-QBK" firstAttribute="top" secondItem="3c9-oq-MIV" secondAttribute="topMargin" constant="3" id="0Tm-hd-Nx1"/>
+                                                <constraint firstItem="8Ky-7S-QBK" firstAttribute="trailing" secondItem="3c9-oq-MIV" secondAttribute="trailingMargin" id="W3g-W0-qTY"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="8Ky-7S-QBK" secondAttribute="bottom" constant="3" id="qZh-4g-ST2"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -224,6 +235,7 @@
                         <outlet property="addPhotoLabel" destination="jfi-wo-3Wf" id="kEB-co-OhK"/>
                         <outlet property="latitudeLabel" destination="APc-Ei-9PE" id="kTd-0r-KNB"/>
                         <outlet property="longitudeLabel" destination="mT7-77-kFf" id="P6g-dN-c5P"/>
+                        <outlet property="photoDisclosure" destination="8Ky-7S-QBK" id="Ud9-Dg-iCJ"/>
                         <outlet property="photoImage" destination="WZy-YQ-yZR" id="Tnc-gL-PVm"/>
                         <outlet property="publishSwitch" destination="AW0-1I-RGC" id="R03-cg-GdD"/>
                         <outlet property="scoopText" destination="Gvc-QL-2kb" id="KTF-db-Gev"/>

@@ -68,11 +68,10 @@ class AnonymousTableViewController: UITableViewController {
         
         let tableMS =  client.table(withName: "Scoops")
         
+        let predicate = NSPredicate(format: "status == 'published'")
         //let predicate = NSPredicate(format: "authorID == %@", (client.currentUser?.userId!)!)
         
-        //let query = tableMS.query(with: predicate)
-        
-        let query = tableMS.query()
+        let query = tableMS.query(with: predicate)
         
         query.order(byAscending: "createdAt")
         
